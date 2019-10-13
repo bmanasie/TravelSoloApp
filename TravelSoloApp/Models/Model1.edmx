@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Trips" EntityType="Model1.Store.Trips" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BookingFeedbacks" EntityType="Model1.Store.BookingFeedbacks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Bookings" EntityType="Model1.Store.Bookings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContactUs" EntityType="Model1.Store.ContactUs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUsers" EntityType="Model1.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Points1" EntityType="Model1.Store.Points1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AspNetUserTrip" EntityType="Model1.Store.AspNetUserTrip" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="BookingBookingFeedback" Association="Model1.Store.BookingBookingFeedback">
+      <End Role="Booking" EntitySet="Bookings" />
+      <End Role="BookingFeedback" EntitySet="BookingFeedbacks" />
+    </AssociationSet>
+    <AssociationSet Name="TripBooking" Association="Model1.Store.TripBooking">
+      <End Role="Trip" EntitySet="Trips" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserTrip_AspNetUser" Association="Model1.Store.FK_AspNetUserTrip_AspNetUser">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserTrip" EntitySet="AspNetUserTrip" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AspNetUserTrip_Trip" Association="Model1.Store.FK_AspNetUserTrip_Trip">
+      <End Role="Trip" EntitySet="Trips" />
+      <End Role="AspNetUserTrip" EntitySet="AspNetUserTrip" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserBooking" Association="Model1.Store.AspNetUserBooking">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Trips">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Destination" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="TripCrafterId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Category" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TripCrafterName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookingFeedbacks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rating" Type="smallint" Nullable="false" />
+    <Property Name="BookingId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Booking_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bookings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookingDate" Type="datetime" Nullable="false" />
+    <Property Name="TripId" Type="int" Nullable="false" />
+    <Property Name="AspNetUserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="ContactUs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserEmailId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Email" Type="nvarchar" Nullable="true" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" Nullable="true" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="255" />
+    <Property Name="UserRole" Type="varchar" Nullable="true" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="Points1">
+    <Key>
+      <PropertyRef Name="x" />
+    </Key>
+    <Property Name="y" Type="int" Nullable="false" />
+    <Property Name="x" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserTrip">
+    <Key>
+      <PropertyRef Name="AspNetUsers_Id" />
+      <PropertyRef Name="Trips_Id" />
+    </Key>
+    <Property Name="AspNetUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Trips_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="BookingBookingFeedback">
+    <End Role="Booking" Type="Model1.Store.Bookings" Multiplicity="1" />
+    <End Role="BookingFeedback" Type="Model1.Store.BookingFeedbacks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Booking">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookingFeedback">
+        <PropertyRef Name="Booking_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TripBooking">
+    <End Role="Trip" Type="Model1.Store.Trips" Multiplicity="1" />
+    <End Role="Booking" Type="Model1.Store.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Trip">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="TripId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserBooking">
+    <End Role="AspNetUser" Type="Model1.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="Booking" Type="Model1.Store.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="AspNetUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserTrip_AspNetUser">
+    <End Role="AspNetUser" Type="Model1.Store.AspNetUsers" Multiplicity="1" />
+    <End Role="AspNetUserTrip" Type="Model1.Store.AspNetUserTrip" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserTrip">
+        <PropertyRef Name="AspNetUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AspNetUserTrip_Trip">
+    <End Role="AspNetUserTrip" Type="Model1.Store.AspNetUserTrip" Multiplicity="*" />
+    <End Role="Trip" Type="Model1.Store.Trips" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Trip">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserTrip">
+        <PropertyRef Name="Trips_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Trips" EntityType="Model1.Trip" />
+          <EntitySet Name="BookingFeedbacks" EntityType="Model1.BookingFeedback" />
+          <EntitySet Name="Bookings" EntityType="Model1.Booking" />
+          <EntitySet Name="ContactUs" EntityType="Model1.ContactUs" />
+          <AssociationSet Name="BookingBookingFeedback" Association="Model1.BookingBookingFeedback">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="BookingFeedback" EntitySet="BookingFeedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="TripBooking" Association="Model1.TripBooking">
+            <End Role="Trip" EntitySet="Trips" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="Model1.AspNetUser" />
+          <AssociationSet Name="AspNetUserTrip" Association="Model1.AspNetUserTrip">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Trip" EntitySet="Trips" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserBooking" Association="Model1.AspNetUserBooking">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <EntitySet Name="Points1" EntityType="Model1.Point" />
+        </EntityContainer>
+        <EntityType Name="Trip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Destination" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TripCrafterId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Category" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Bookings" Relationship="Model1.TripBooking" FromRole="Trip" ToRole="Booking" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model1.AspNetUserTrip" FromRole="Trip" ToRole="AspNetUser" />
+          <Property Name="TripCrafterName" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookingFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rating" Type="Int16" Nullable="false" />
+          <Property Name="BookingId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Booking" Relationship="Model1.BookingBookingFeedback" FromRole="BookingFeedback" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BookingFeedback" Relationship="Model1.BookingBookingFeedback" FromRole="Booking" ToRole="BookingFeedback" />
+          <NavigationProperty Name="Trip" Relationship="Model1.TripBooking" FromRole="Booking" ToRole="Trip" />
+          <Property Name="TripId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model1.AspNetUserBooking" FromRole="Booking" ToRole="AspNetUser" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ContactUs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="UserEmailId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="BookingBookingFeedback">
+          <End Type="Model1.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="Model1.BookingFeedback" Role="BookingFeedback" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TripBooking">
+          <End Type="Model1.Trip" Role="Trip" Multiplicity="1" />
+          <End Type="Model1.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="TripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UserRole" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Trips" Relationship="Model1.AspNetUserTrip" FromRole="AspNetUser" ToRole="Trip" />
+          <NavigationProperty Name="Bookings" Relationship="Model1.AspNetUserBooking" FromRole="AspNetUser" ToRole="Booking" />
+        </EntityType>
+        <Association Name="AspNetUserTrip">
+          <End Type="Model1.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <End Type="Model1.Trip" Role="Trip" Multiplicity="*" />
+        </Association>
+        <Association Name="AspNetUserBooking">
+          <End Type="Model1.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Model1.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Point">
+          <Key>
+            <PropertyRef Name="x" />
+          </Key>
+          <Property Name="y" Type="Int32" Nullable="false" />
+          <Property Name="x" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Trips">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Trip)">
+        <MappingFragment StoreEntitySet="Trips">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Destination" ColumnName="Destination" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="TripCrafterId" ColumnName="TripCrafterId" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="TripCrafterName" ColumnName="TripCrafterName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookingFeedbacks">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.BookingFeedback)">
+        <MappingFragment StoreEntitySet="BookingFeedbacks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bookings">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Booking)">
+        <MappingFragment StoreEntitySet="Bookings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+          <ScalarProperty Name="TripId" ColumnName="TripId" />
+          <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ContactUs">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.ContactUs)">
+        <MappingFragment StoreEntitySet="ContactUs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserEmailId" ColumnName="UserEmailId" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetUser)">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Points1">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Point)">
+        <MappingFragment StoreEntitySet="Points1">
+          <ScalarProperty Name="x" ColumnName="x" />
+          <ScalarProperty Name="y" ColumnName="y" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BookingBookingFeedback" TypeName="Model1.BookingBookingFeedback" StoreEntitySet="BookingFeedbacks">
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Booking_Id" />
+      </EndProperty>
+      <EndProperty Name="BookingFeedback">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AspNetUserTrip" TypeName="Model1.AspNetUserTrip" StoreEntitySet="AspNetUserTrip">
+      <EndProperty Name="AspNetUser">
+        <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
+      </EndProperty>
+      <EndProperty Name="Trip">
+        <ScalarProperty Name="Id" ColumnName="Trips_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
