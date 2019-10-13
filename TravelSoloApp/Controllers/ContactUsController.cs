@@ -48,17 +48,21 @@ namespace TravelSoloApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UserEmailId,Message")] ContactUs contactUs)
+        public ActionResult Create([Bind(Include = "Id,Name,UserEmailId,Message")] ContactUs contactUs, HttpPostedFileBase fileUploader)
         {
 
             try
             {
                 String fromEmail = contactUs.UserEmailId;
                 String name = contactUs.Name;
+
                 String contents = contactUs.Message;
-                string fileName = Path.GetFullPath(fileUploader.FileName);
+                
+                string fileName = Path.GetFileName(fileUploader.FileName);
+                string pathName = Path.Combine(Server.MapPath("~/Content/Uploads/"), fileName);
+                fileUploader.SaveAs(pathName);
                 EmailSender es = new EmailSender();
-                es.Send(fromEmail, name, contents, fileName);
+                es.Send(fromEmail, name, contents, pathName, fileName);
 
                 ViewBag.Result = "Email has been send.";
 

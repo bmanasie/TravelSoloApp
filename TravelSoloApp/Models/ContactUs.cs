@@ -18,5 +18,6 @@ namespace TravelSoloApp.Models
         public string Name { get; set; }
         public string UserEmailId { get; set; }
         public string Message { get; set; }
+        public string filePath { get; set; }
     }
 }

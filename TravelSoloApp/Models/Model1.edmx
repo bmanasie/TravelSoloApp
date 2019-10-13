@@ -72,6 +72,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserEmailId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="filePath" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUsers">
     <Key>
@@ -238,6 +239,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="UserEmailId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="filePath" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="BookingBookingFeedback">
           <End Type="Model1.Booking" Role="Booking" Multiplicity="1" />
@@ -344,6 +346,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="UserEmailId" ColumnName="UserEmailId" />
           <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="filePath" ColumnName="filePath" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

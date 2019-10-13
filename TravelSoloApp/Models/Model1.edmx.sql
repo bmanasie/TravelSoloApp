@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/07/2019 20:28:32
+-- Date Created: 10/13/2019 13:38:50
 -- Generated from EDMX file: C:\Users\manasie\source\repos\TravelSoloApp\TravelSoloApp\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -98,7 +98,8 @@ CREATE TABLE [dbo].[ContactUs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [UserEmailId] nvarchar(max)  NOT NULL,
-    [Message] nvarchar(max)  NOT NULL
+    [Message] nvarchar(max)  NOT NULL,
+    [filePath] nvarchar(max)  NOT NULL
 );
 GO
 
