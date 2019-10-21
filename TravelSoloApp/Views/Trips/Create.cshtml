@@ -4,7 +4,8 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+   
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
 <h2>Create Trip</h2>
 
 
@@ -31,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @Id ="Decription"} })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -39,8 +40,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datetimepicker", @Name = "Date" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
@@ -67,4 +70,21 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
+    
+    <script type="text/javascript">
+       
+        $(function () {
+            $('#Date').datetimepicker({
+                showClose: true,
+                showClear:true,
+                format: 'DD/MM/YYYY hh:mm A',
+                minDate: moment(),
+                maxDate: moment().add(90,'days')
+
+            });
+
+            $.validator.methods["date"] = function (value, element) { return true; } 
+        
+    });
+    </script>
 }

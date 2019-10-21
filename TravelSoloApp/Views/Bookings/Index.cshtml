@@ -22,9 +22,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Trip.Destination)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookingFeedback.Rating)
-        </th>
+
 
     </tr>
 
@@ -44,10 +42,11 @@
                 @Html.DisplayFor(modelItem => item.Trip.Destination)
             </td>
             <td>
-                @Html.ActionLink("Rating", "Create","BookingFeedbacks")
 
 
-                <input type="submit" value="Submit" class="submit" />
+                @Html.ActionLink("Rating", "Create", "BookingFeedbacks", new { id = item.Id}, null)
+
+
 
 
             </td>

@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using TravelSoloApp.Models;
@@ -49,13 +51,17 @@ namespace TravelSoloApp.Controllers
         // POST: Trips/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+         [HttpPost]
+         [ValidateAntiForgeryToken]
+         [ValidateInput(false)]
          [Authorize]
         public ActionResult Create([Bind(Include = "Id,Destination,Description,Date,TripCrafterId,Category,TripCrafterName")] Trip trip)
         {
+            StringBuilder desc = new StringBuilder();
+            desc.Append(HttpUtility.HtmlEncode(trip.Description));
 
 
+            trip.Description = desc.ToString();
             trip.TripCrafterId = User.Identity.GetUserId();
             trip.TripCrafterName = User.Identity.GetUserName();
 

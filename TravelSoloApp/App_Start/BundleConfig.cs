@@ -29,6 +29,10 @@ namespace TravelSoloApp
             bundles.Add(new ScriptBundle("~/bundles/mapbox").Include(
              "~/Scripts/location.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/datetime").Include(
+             "~/Scripts/moment*",
+             "~/Scripts/bootstrap-datetimepicker*"));
+
         }
     }
 }

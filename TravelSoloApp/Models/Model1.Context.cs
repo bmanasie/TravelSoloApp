@@ -26,10 +26,10 @@ namespace TravelSoloApp.Models
         }
     
         public virtual DbSet<Trip> Trips { get; set; }
-        public virtual DbSet<BookingFeedback> BookingFeedbacks { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
         public virtual DbSet<ContactUs> ContactUs { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Point> Points1 { get; set; }
+        public virtual DbSet<BookingFeedback> BookingFeedbacks { get; set; }
     }
 }

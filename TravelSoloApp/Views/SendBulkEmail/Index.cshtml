@@ -1,0 +1,50 @@
+﻿
+
+
+@model IEnumerable<TravelSoloApp.Models.AspNetUser>
+@{
+        ViewBag.Title = "SendBulkmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <table class="table">
+            @using (Html.BeginForm("Index", "SendBulkEmail"))
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"
+                                           name="SelectedEmail"
+                                           value=@item.Email />@item.Email
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td>
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary" value="Submit" />
+                            </div>
+                    </td>
+                        </tr>
+
+                            }
+                </table>
+    </div>
+</body>
+</html>

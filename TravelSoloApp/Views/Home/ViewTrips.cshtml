@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "ViewTrips";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime today = DateTime.Today;
+    DateTime valid = today.AddDays(1);
 }
 
 <h2>Upcoming Trips</h2>
@@ -34,8 +36,28 @@
                 <span class="destination">
                     @item.Destination
                 </span>
-                <button data-trip-id="@item.Id" class="btn btn-default btn-sm pull-right js-toggle-booking">Book?</button>
-                
+                <span class="description">
+                    @item.Description
+                </span>
+                @if (User.IsInRole("User"))
+                {
+                    if (item.Date > valid)
+                    {
+                        <button data-trip-id="@item.Id" class="btn btn-default btn-sm pull-right js-toggle-booking"> Book?</button>
+                    }
+                    else
+                    {
+
+
+
+                        <span class="invalid">
+                            Booking disabled
+                        </span>
+
+
+
+                    }
+                }
             </div>
 
            
@@ -49,6 +71,9 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
  <script>
 
+
+
+     
      $(document).ready(function () {
 
          $(".js-toggle-booking").click(function (e) {
@@ -62,7 +87,7 @@
                  })
                   
                  .fail(function (e) {
-                     alert(e);
+                     alert("Trip already booked");
                  });
          });
 

@@ -19,8 +19,8 @@ namespace TravelSoloApp.Models
         public int TripId { get; set; }
         public string AspNetUserId { get; set; }
     
-        public virtual BookingFeedback BookingFeedback { get; set; }
         public virtual Trip Trip { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual BookingFeedback BookingFeedback { get; set; }
     }
 }

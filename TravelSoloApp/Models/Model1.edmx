@@ -7,16 +7,12 @@
     <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="Model1StoreContainer">
     <EntitySet Name="Trips" EntityType="Model1.Store.Trips" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="BookingFeedbacks" EntityType="Model1.Store.BookingFeedbacks" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Bookings" EntityType="Model1.Store.Bookings" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ContactUs" EntityType="Model1.Store.ContactUs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUsers" EntityType="Model1.Store.AspNetUsers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Points1" EntityType="Model1.Store.Points1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BookingFeedbacks" EntityType="Model1.Store.BookingFeedbacks" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AspNetUserTrip" EntityType="Model1.Store.AspNetUserTrip" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="BookingBookingFeedback" Association="Model1.Store.BookingBookingFeedback">
-      <End Role="Booking" EntitySet="Bookings" />
-      <End Role="BookingFeedback" EntitySet="BookingFeedbacks" />
-    </AssociationSet>
     <AssociationSet Name="TripBooking" Association="Model1.Store.TripBooking">
       <End Role="Trip" EntitySet="Trips" />
       <End Role="Booking" EntitySet="Bookings" />
@@ -33,6 +29,10 @@
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
       <End Role="Booking" EntitySet="Bookings" />
     </AssociationSet>
+    <AssociationSet Name="BookingFeedbackBooking" Association="Model1.Store.BookingFeedbackBooking">
+      <End Role="BookingFeedback" EntitySet="BookingFeedbacks" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Trips">
     <Key>
@@ -44,16 +44,7 @@
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="TripCrafterId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Category" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TripCrafterName" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="BookingFeedbacks">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Rating" Type="smallint" Nullable="false" />
-    <Property Name="BookingId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Booking_Id" Type="int" Nullable="false" />
+    <Property Name="TripCrafterName" Type="varchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="Bookings">
     <Key>
@@ -72,7 +63,7 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserEmailId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="filePath" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="filePath" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="AspNetUsers">
     <Key>
@@ -100,6 +91,14 @@
     <Property Name="y" Type="int" Nullable="false" />
     <Property Name="x" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="BookingFeedbacks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rating" Type="smallint" Nullable="false" />
+    <Property Name="Booking_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetUserTrip">
     <Key>
       <PropertyRef Name="AspNetUsers_Id" />
@@ -108,18 +107,6 @@
     <Property Name="AspNetUsers_Id" Type="nvarchar" Nullable="false" MaxLength="128" />
     <Property Name="Trips_Id" Type="int" Nullable="false" />
   </EntityType>
-  <Association Name="BookingBookingFeedback">
-    <End Role="Booking" Type="Model1.Store.Bookings" Multiplicity="1" />
-    <End Role="BookingFeedback" Type="Model1.Store.BookingFeedbacks" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Booking">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="BookingFeedback">
-        <PropertyRef Name="Booking_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="TripBooking">
     <End Role="Trip" Type="Model1.Store.Trips" Multiplicity="1" />
     <End Role="Booking" Type="Model1.Store.Bookings" Multiplicity="*" />
@@ -141,6 +128,18 @@
       </Principal>
       <Dependent Role="Booking">
         <PropertyRef Name="AspNetUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BookingFeedbackBooking">
+    <End Role="BookingFeedback" Type="Model1.Store.BookingFeedbacks" Multiplicity="*" />
+    <End Role="Booking" Type="Model1.Store.Bookings" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Booking">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookingFeedback">
+        <PropertyRef Name="Booking_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -174,13 +173,8 @@
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Trips" EntityType="Model1.Trip" />
-          <EntitySet Name="BookingFeedbacks" EntityType="Model1.BookingFeedback" />
           <EntitySet Name="Bookings" EntityType="Model1.Booking" />
           <EntitySet Name="ContactUs" EntityType="Model1.ContactUs" />
-          <AssociationSet Name="BookingBookingFeedback" Association="Model1.BookingBookingFeedback">
-            <End Role="Booking" EntitySet="Bookings" />
-            <End Role="BookingFeedback" EntitySet="BookingFeedbacks" />
-          </AssociationSet>
           <AssociationSet Name="TripBooking" Association="Model1.TripBooking">
             <End Role="Trip" EntitySet="Trips" />
             <End Role="Booking" EntitySet="Bookings" />
@@ -195,6 +189,11 @@
             <End Role="Booking" EntitySet="Bookings" />
           </AssociationSet>
           <EntitySet Name="Points1" EntityType="Model1.Point" />
+          <EntitySet Name="BookingFeedbacks" EntityType="Model1.BookingFeedback" />
+          <AssociationSet Name="BookingFeedbackBooking" Association="Model1.BookingFeedbackBooking">
+            <End Role="BookingFeedback" EntitySet="BookingFeedbacks" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Trip">
           <Key>
@@ -208,16 +207,7 @@
           <Property Name="Category" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Bookings" Relationship="Model1.TripBooking" FromRole="Trip" ToRole="Booking" />
           <NavigationProperty Name="AspNetUsers" Relationship="Model1.AspNetUserTrip" FromRole="Trip" ToRole="AspNetUser" />
-          <Property Name="TripCrafterName" Type="String" Nullable="false" />
-        </EntityType>
-        <EntityType Name="BookingFeedback">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Rating" Type="Int16" Nullable="false" />
-          <Property Name="BookingId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Booking" Relationship="Model1.BookingBookingFeedback" FromRole="BookingFeedback" ToRole="Booking" />
+          <Property Name="TripCrafterName" Type="String" Unicode="false" FixedLength="false" MaxLength="Max" />
         </EntityType>
         <EntityType Name="Booking">
           <Key>
@@ -225,11 +215,11 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="BookingFeedback" Relationship="Model1.BookingBookingFeedback" FromRole="Booking" ToRole="BookingFeedback" />
           <NavigationProperty Name="Trip" Relationship="Model1.TripBooking" FromRole="Booking" ToRole="Trip" />
           <Property Name="TripId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Model1.AspNetUserBooking" FromRole="Booking" ToRole="AspNetUser" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BookingFeedback" Relationship="Model1.BookingFeedbackBooking" FromRole="Booking" ToRole="BookingFeedback" />
         </EntityType>
         <EntityType Name="ContactUs">
           <Key>
@@ -239,12 +229,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="UserEmailId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="filePath" Type="String" Nullable="false" />
+          <Property Name="filePath" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" />
         </EntityType>
-        <Association Name="BookingBookingFeedback">
-          <End Type="Model1.Booking" Role="Booking" Multiplicity="1" />
-          <End Type="Model1.BookingFeedback" Role="BookingFeedback" Multiplicity="0..1" />
-        </Association>
         <Association Name="TripBooking">
           <End Type="Model1.Trip" Role="Trip" Multiplicity="1" />
           <End Type="Model1.Booking" Role="Booking" Multiplicity="*" />
@@ -301,6 +287,18 @@
           <Property Name="y" Type="Int32" Nullable="false" />
           <Property Name="x" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="BookingFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rating" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Booking" Relationship="Model1.BookingFeedbackBooking" FromRole="BookingFeedback" ToRole="Booking" />
+        </EntityType>
+        <Association Name="BookingFeedbackBooking">
+          <End Type="Model1.BookingFeedback" Role="BookingFeedback" Multiplicity="0..1" />
+          <End Type="Model1.Booking" Role="Booking" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -317,15 +315,6 @@
           <ScalarProperty Name="TripCrafterId" ColumnName="TripCrafterId" />
           <ScalarProperty Name="Category" ColumnName="Category" />
           <ScalarProperty Name="TripCrafterName" ColumnName="TripCrafterName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="BookingFeedbacks">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.BookingFeedback)">
-        <MappingFragment StoreEntitySet="BookingFeedbacks">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Rating" ColumnName="Rating" />
-          <ScalarProperty Name="BookingId" ColumnName="BookingId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -378,20 +367,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="BookingBookingFeedback" TypeName="Model1.BookingBookingFeedback" StoreEntitySet="BookingFeedbacks">
-      <EndProperty Name="Booking">
-        <ScalarProperty Name="Id" ColumnName="Booking_Id" />
-      </EndProperty>
-      <EndProperty Name="BookingFeedback">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="BookingFeedbacks">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.BookingFeedback)">
+        <MappingFragment StoreEntitySet="BookingFeedbacks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserTrip" TypeName="Model1.AspNetUserTrip" StoreEntitySet="AspNetUserTrip">
       <EndProperty Name="AspNetUser">
         <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
       </EndProperty>
       <EndProperty Name="Trip">
         <ScalarProperty Name="Id" ColumnName="Trips_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="BookingFeedbackBooking" TypeName="Model1.BookingFeedbackBooking" StoreEntitySet="BookingFeedbacks">
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Booking_Id" />
+      </EndProperty>
+      <EndProperty Name="BookingFeedback">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

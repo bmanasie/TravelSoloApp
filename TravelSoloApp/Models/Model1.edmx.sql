@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/13/2019 13:38:50
+-- Date Created: 10/15/2019 02:12:49
 -- Generated from EDMX file: C:\Users\manasie\source\repos\TravelSoloApp\TravelSoloApp\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -17,9 +17,6 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_BookingBookingFeedback]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[BookingFeedbacks] DROP CONSTRAINT [FK_BookingBookingFeedback];
-GO
 IF OBJECT_ID(N'[dbo].[FK_TripBooking]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Bookings] DROP CONSTRAINT [FK_TripBooking];
 GO
@@ -32,6 +29,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AspNetUserBooking]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Bookings] DROP CONSTRAINT [FK_AspNetUserBooking];
 GO
+IF OBJECT_ID(N'[dbo].[FK_BookingFeedbackBooking]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BookingFeedbacks] DROP CONSTRAINT [FK_BookingFeedbackBooking];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -39,9 +39,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[Trips]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Trips];
-GO
-IF OBJECT_ID(N'[dbo].[BookingFeedbacks]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[BookingFeedbacks];
 GO
 IF OBJECT_ID(N'[dbo].[Bookings]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Bookings];
@@ -54,6 +51,9 @@ IF OBJECT_ID(N'[dbo].[AspNetUsers]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Points1]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Points1];
+GO
+IF OBJECT_ID(N'[dbo].[BookingFeedbacks]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BookingFeedbacks];
 GO
 IF OBJECT_ID(N'[dbo].[AspNetUserTrip]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AspNetUserTrip];
@@ -71,16 +71,7 @@ CREATE TABLE [dbo].[Trips] (
     [Date] datetime  NOT NULL,
     [TripCrafterId] nvarchar(max)  NOT NULL,
     [Category] nvarchar(max)  NOT NULL,
-    [TripCrafterName] nvarchar(max)  NOT NULL
-);
-GO
-
--- Creating table 'BookingFeedbacks'
-CREATE TABLE [dbo].[BookingFeedbacks] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Rating] smallint  NOT NULL,
-    [BookingId] nvarchar(max)  NOT NULL,
-    [Booking_Id] int  NOT NULL
+    [TripCrafterName] varchar(max)  NULL
 );
 GO
 
@@ -99,7 +90,7 @@ CREATE TABLE [dbo].[ContactUs] (
     [Name] nvarchar(max)  NOT NULL,
     [UserEmailId] nvarchar(max)  NOT NULL,
     [Message] nvarchar(max)  NOT NULL,
-    [filePath] nvarchar(max)  NOT NULL
+    [filePath] nvarchar(max)  NULL
 );
 GO
 
@@ -129,6 +120,14 @@ CREATE TABLE [dbo].[Points1] (
 );
 GO
 
+-- Creating table 'BookingFeedbacks'
+CREATE TABLE [dbo].[BookingFeedbacks] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Rating] smallint  NOT NULL,
+    [Booking_Id] int  NOT NULL
+);
+GO
+
 -- Creating table 'AspNetUserTrip'
 CREATE TABLE [dbo].[AspNetUserTrip] (
     [AspNetUsers_Id] nvarchar(128)  NOT NULL,
@@ -143,12 +142,6 @@ GO
 -- Creating primary key on [Id] in table 'Trips'
 ALTER TABLE [dbo].[Trips]
 ADD CONSTRAINT [PK_Trips]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'BookingFeedbacks'
-ALTER TABLE [dbo].[BookingFeedbacks]
-ADD CONSTRAINT [PK_BookingFeedbacks]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -176,6 +169,12 @@ ADD CONSTRAINT [PK_Points1]
     PRIMARY KEY CLUSTERED ([x] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'BookingFeedbacks'
+ALTER TABLE [dbo].[BookingFeedbacks]
+ADD CONSTRAINT [PK_BookingFeedbacks]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [AspNetUsers_Id], [Trips_Id] in table 'AspNetUserTrip'
 ALTER TABLE [dbo].[AspNetUserTrip]
 ADD CONSTRAINT [PK_AspNetUserTrip]
@@ -185,21 +184,6 @@ GO
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
-
--- Creating foreign key on [Booking_Id] in table 'BookingFeedbacks'
-ALTER TABLE [dbo].[BookingFeedbacks]
-ADD CONSTRAINT [FK_BookingBookingFeedback]
-    FOREIGN KEY ([Booking_Id])
-    REFERENCES [dbo].[Bookings]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_BookingBookingFeedback'
-CREATE INDEX [IX_FK_BookingBookingFeedback]
-ON [dbo].[BookingFeedbacks]
-    ([Booking_Id]);
-GO
 
 -- Creating foreign key on [TripId] in table 'Bookings'
 ALTER TABLE [dbo].[Bookings]
@@ -253,6 +237,21 @@ GO
 CREATE INDEX [IX_FK_AspNetUserBooking]
 ON [dbo].[Bookings]
     ([AspNetUserId]);
+GO
+
+-- Creating foreign key on [Booking_Id] in table 'BookingFeedbacks'
+ALTER TABLE [dbo].[BookingFeedbacks]
+ADD CONSTRAINT [FK_BookingFeedbackBooking]
+    FOREIGN KEY ([Booking_Id])
+    REFERENCES [dbo].[Bookings]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_BookingFeedbackBooking'
+CREATE INDEX [IX_FK_BookingFeedbackBooking]
+ON [dbo].[BookingFeedbacks]
+    ([Booking_Id]);
 GO
 
 -- --------------------------------------------------

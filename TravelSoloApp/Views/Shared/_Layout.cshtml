@@ -43,6 +43,7 @@
 
                     }
                     <li>@Html.ActionLink("Reach Us", "Index", "Locations")</li>
+                    <li>@Html.ActionLink("Reach Us", "Index", "SendBulkEmail")</li> 
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -58,6 +59,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datetime")
     @RenderSection("scripts", required: false)
 </body>
 </html>

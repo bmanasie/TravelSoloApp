@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width" />
-        <title>DataFromDataBase</title>
+        <title>trips</title>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     </head>
@@ -27,14 +27,21 @@ window.onload = function () {
 var chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
     title: {
-        text: "ASP.NET MVC"
+        text: "Trips Planned By Us"
     },
     data: [
         {
             type: "column",
-            dataPoints: datapoints,
+            dataPoints: datapoints
         }
-    ]
+    ],
+    axisX:{
+  title: "Year",
+    },
+     axisY:{
+  title: "Number of Trips",
+ },
+
 
 });
 chart.render();

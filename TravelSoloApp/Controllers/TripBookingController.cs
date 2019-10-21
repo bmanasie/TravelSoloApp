@@ -28,6 +28,10 @@ namespace TravelSoloApp.Controllers
         public IHttpActionResult Book(BookingDto dto)
         {
             var userId = User.Identity.GetUserId();
+            DateTime today = DateTime.Now;
+            DateTime validDate = today.AddDays(1);
+
+
 
             var exists = _context.Bookings.Any(a => a.AspNetUserId == userId && a.TripId == dto.tripid);
             if (exists)

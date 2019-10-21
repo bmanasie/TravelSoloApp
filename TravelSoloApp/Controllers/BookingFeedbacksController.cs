@@ -24,7 +24,7 @@ namespace TravelSoloApp.Controllers
 
             BookingFeedback bookingfeedback = new BookingFeedback();
             bookingfeedback.Rating = rating;
-            bookingfeedback.BookingId = bookingid;
+      
 
             db.BookingFeedbacks.Add(bookingfeedback);
             db.SaveChanges();
@@ -51,9 +51,13 @@ namespace TravelSoloApp.Controllers
         }
 
         // GET: BookingFeedbacks/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            BookingFeedback bookingFeedback = new BookingFeedback();
+            bookingFeedback.Booking_Id = id;
+
+
+            return View(bookingFeedback);
         }
 
         // POST: BookingFeedbacks/Create
@@ -61,10 +65,17 @@ namespace TravelSoloApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Rating,BookingId")] BookingFeedback bookingFeedback)
+        public ActionResult Create(int Id, short Rating, int Booking_Id)
         {
+            var bookingFeedback = new BookingFeedback() ;
+
+            var booking = new Booking { Id = Booking_Id };
             if (ModelState.IsValid)
             {
+                bookingFeedback.Booking_Id = Booking_Id;
+                bookingFeedback.Rating = Rating;
+        
+                bookingFeedback.Booking = booking;
                 db.BookingFeedbacks.Add(bookingFeedback);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -95,6 +106,7 @@ namespace TravelSoloApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Rating,BookingId")] BookingFeedback bookingFeedback)
         {
+           
             if (ModelState.IsValid)
             {
                 db.Entry(bookingFeedback).State = EntityState.Modified;
