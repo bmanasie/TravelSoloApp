@@ -20,37 +20,9 @@ namespace TravelSoloApp.Controllers
             return View(db.BookingFeedbacks.ToList());
         }
 
-        public ActionResult setRating(string bookingid, short rating) {
-
-            BookingFeedback bookingfeedback = new BookingFeedback();
-            bookingfeedback.Rating = rating;
-      
-
-            db.BookingFeedbacks.Add(bookingfeedback);
-            db.SaveChanges();
-
-            return RedirectToAction("Index", "Bookings", new { id = bookingid });
-        }
-
-
-
-
-        // GET: BookingFeedbacks/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BookingFeedback bookingFeedback = db.BookingFeedbacks.Find(id);
-            if (bookingFeedback == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bookingFeedback);
-        }
 
         // GET: BookingFeedbacks/Create
+        // Method call when the user lands on booking feedback page
         public ActionResult Create(int id)
         {
             BookingFeedback bookingFeedback = new BookingFeedback();
@@ -65,11 +37,11 @@ namespace TravelSoloApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int Id, short Rating, int Booking_Id)
+        public ActionResult Create(short Rating, int Booking_Id)
         {
             var bookingFeedback = new BookingFeedback() ;
 
-            var booking = new Booking { Id = Booking_Id };
+            Booking booking = db.Bookings.Find(Booking_Id);
             if (ModelState.IsValid)
             {
                 bookingFeedback.Booking_Id = Booking_Id;
@@ -78,68 +50,10 @@ namespace TravelSoloApp.Controllers
                 bookingFeedback.Booking = booking;
                 db.BookingFeedbacks.Add(bookingFeedback);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Bookings");
             }
 
             return View(bookingFeedback);
-        }
-
-        // GET: BookingFeedbacks/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BookingFeedback bookingFeedback = db.BookingFeedbacks.Find(id);
-            if (bookingFeedback == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bookingFeedback);
-        }
-
-        // POST: BookingFeedbacks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Rating,BookingId")] BookingFeedback bookingFeedback)
-        {
-           
-            if (ModelState.IsValid)
-            {
-                db.Entry(bookingFeedback).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(bookingFeedback);
-        }
-
-        // GET: BookingFeedbacks/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BookingFeedback bookingFeedback = db.BookingFeedbacks.Find(id);
-            if (bookingFeedback == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bookingFeedback);
-        }
-
-        // POST: BookingFeedbacks/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            BookingFeedback bookingFeedback = db.BookingFeedbacks.Find(id);
-            db.BookingFeedbacks.Remove(bookingFeedback);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

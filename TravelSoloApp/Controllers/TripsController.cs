@@ -95,13 +95,30 @@ namespace TravelSoloApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Destination,Description,Date,TripCrafterId,Category")] Trip trip)
+        public ActionResult Edit([Bind(Include = "Id,Destination,Description,Date,TripCrafterId,Category,TripCrafterName")] Trip trip)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(trip).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    var bookings = db.Bookings.Where(d => d.TripId == trip.Id).SingleOrDefault();
+                    if (bookings != null)
+                    {
+
+                        ViewBag.Result = "Booking exists in the trip so cannot be edited";
+                        return View(trip);
+                    }
+                    trip.TripCrafterId = User.Identity.GetUserId();
+                    trip.TripCrafterName = User.Identity.GetUserName();
+                    db.Entry(trip).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch(DataException) {
+
+                return View(trip);
             }
             return View(trip);
         }
@@ -126,9 +143,25 @@ namespace TravelSoloApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+
             Trip trip = db.Trips.Find(id);
-            db.Trips.Remove(trip);
-            db.SaveChanges();
+
+            var bookings = db.Bookings.Where(d => d.TripId == id).SingleOrDefault();
+            if (bookings != null)
+            {
+
+                ViewBag.Result = "Booking exists in the trip so cannot be deleted";
+                return View(trip);
+            }
+            else
+            {
+
+                
+                db.Trips.Remove(trip);
+                db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
 

@@ -35,7 +35,8 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v10',
     zoom: 11,
-    center: [locations[0].longitude, locations[0].latitude]
+    center: [locations[0].longitude, locations[0].latitude],
+    marker: true
 });
 map.on('load', function () {
     // Add a layer showing the places.

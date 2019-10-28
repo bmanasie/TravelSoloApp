@@ -4,7 +4,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+    <head>
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+</head>
 <h2>Our Offices</h2>
 <div id="map" style="height:300px"></div>
 <br />
@@ -51,11 +54,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/mapbox")
 
-    <script>
-
-
-        map.addControl(new mapboxgl.NavigationControl());
-
-    </script>
+   
 }
 

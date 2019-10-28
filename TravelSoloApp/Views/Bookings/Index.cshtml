@@ -3,57 +3,107 @@
 @{
     ViewBag.Title = "My Bookings";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime today = DateTime.Today;
 }
 
 <h2>Index</h2>
 
-
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Booking Id")
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TripId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookingDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Trip.Destination)
-        </th>
-
-
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TripId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookingDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Trip.Destination)
-            </td>
-            <td>
-
-
-                @Html.ActionLink("Rating", "Create", "BookingFeedbacks", new { id = item.Id}, null)
-
-
-
-
-            </td>
-
+            <th>
+                @Html.DisplayName("Booking Id")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Trip.Destination)
+            </th>
+            <th>
+                @Html.DisplayName("Trip Date")
+            </th>
+            <th>
+                @Html.DisplayName("Rating")
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            using (Html.BeginForm("Index", "Rating", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
 
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                            @Html.HiddenFor(modelItem => item.Id, new { @Name = "Id" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TripId)
+                            @Html.HiddenFor(modelItem => item.TripId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookingDate)
+                            @Html.HiddenFor(modelItem => item.BookingDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trip.Destination)
+                            @Html.HiddenFor(modelItem => item.Trip.Destination)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trip.Date)
+                            @Html.HiddenFor(modelItem => item.Trip.Date)
+                        </td>
+                        <td>
+
+                            @if (item.BookingFeedback != null && item.BookingFeedback.Rating != 0)
+                            {
+
+                                @Html.DisplayFor(modelItem => item.BookingFeedback.Rating)
+                            }
+                            else
+                            {
+
+                                if (item.Trip.Date < today)
+                                {
+                                    @Html.ActionLink("Rating", "Create", "BookingFeedbacks", new { id = item.Id })
+
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) }
+
+                                else
+                                {
+                                    @Html.DisplayName("Rating disabled")
+                                }
+
+
+
+                            }
+                        </td>
+
+                    </tr>
+
+                }
+            }
+        }
+    </tbody>
 </table>
 
 
+@section Scripts {
+
+    @Scripts.Render("~/Scripts/DataTables/jquery.dataTables.js")
+    @Scripts.Render("~/Scripts/DataTables/dataTables.bootstrap.js")
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+}
+<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />

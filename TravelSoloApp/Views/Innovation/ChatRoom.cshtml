@@ -27,6 +27,12 @@
     <script src="~/signalr/hubs"></script>
 
     <script>
+                    tinymce.init({
+
+                selector:"#message"
+
+
+            })
  $(function () {
 
  var toDo = $.connection.toDoHub;

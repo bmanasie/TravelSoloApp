@@ -24,6 +24,9 @@ namespace TravelSoloApp.Controllers
             return View(bookings.ToList());
         }
 
+
+
+
         // GET: Bookings/Details/5
         public ActionResult Details(int? id)
         {

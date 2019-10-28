@@ -19,10 +19,13 @@ namespace TravelSoloApp.Controllers
             return View();
         }
 
+        //Exceution of dynamic charts
         public ActionResult About()
         {
             try
             {
+               
+
                 ViewBag.DataPoints = JsonConvert.SerializeObject(db.Points1.ToList(), _jsonSetting);
 
                 return View();
@@ -43,6 +46,8 @@ namespace TravelSoloApp.Controllers
 
             return View();
         }
+
+        //View all the upcoming trips
         public ActionResult ViewTrips()
         {
             var upcomingTrips = db.Trips.Where(g => g.Date> DateTime.Now);

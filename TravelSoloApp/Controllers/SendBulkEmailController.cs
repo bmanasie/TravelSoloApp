@@ -19,53 +19,33 @@ namespace TravelSoloApp.Controllers
             return View(allusers);
         }
 
+       //POST request of Bulk email
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,UserEmailId,Message")] ContactUs contactUs, HttpPostedFileBase fileUploader)
+        public ActionResult Index(BulkEmail model,HttpPostedFileBase fileUploader)
         {
-
             try
             {
-                String fromEmail = contactUs.UserEmailId;
-                String name = contactUs.Name;
+                
+                    string fileName = Path.GetFileName(fileUploader.FileName);
+                    string pathName = Path.Combine(Server.MapPath("~/Content/Uploads/"), fileName);
+                    fileUploader.SaveAs(pathName);
+                    String contents = model.Message;
+                    EmailSender es = new EmailSender();
+                    es.SendBulk(contents, pathName, fileName, model.SelectedEmail);
 
-                String contents = contactUs.Message;
+                    ViewBag.Result = "Email has been send.";
 
-                string fileName = Path.GetFileName(fileUploader.FileName);
-                string pathName = Path.Combine(Server.MapPath("~/Content/Uploads/"), fileName);
-                fileUploader.SaveAs(pathName);
-                EmailSender es = new EmailSender();
-                es.Send(fromEmail, name, contents, pathName, fileName);
+                    ModelState.Clear();
 
-                ViewBag.Result = "Email has been send.";
-
-                ModelState.Clear();
-
-                return View(new ContactUs());
+                    
+                
             }
-            catch
-            {
-                return View();
+            catch{
+
+                ViewBag.Result = "Enter the details";
+                
             }
-
-
-        }
-
-
-
-        [HttpPost]
-        public ActionResult Index(BulkEmail model)
-        {
-            if (ModelState.IsValid)
-            {
-                var emailIds = string.Join(";", model.SelectedEmail);
-
-                // Save data to database, and redirect to Success page.
-
-                return RedirectToAction("Success");
-            }
-           
-            return View(model);
+            return Index();
         }
 
     }

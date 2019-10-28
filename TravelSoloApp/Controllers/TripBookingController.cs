@@ -24,6 +24,8 @@ namespace TravelSoloApp.Controllers
         {
             _context = new Model1Container();
         }
+
+        //User books a trip
         [HttpPost]
         public IHttpActionResult Book(BookingDto dto)
         {

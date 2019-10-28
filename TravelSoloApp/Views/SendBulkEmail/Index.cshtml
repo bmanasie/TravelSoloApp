@@ -17,10 +17,18 @@
 </head>
 <body>
     <div class="container">
-        <table class="table">
-            @using (Html.BeginForm("Index", "SendBulkEmail"))
+
+        @using (Html.BeginForm("Index", "SendBulkEmail", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            if (@ViewBag.Result != null)
             {
-                foreach (var item in Model)
+                <div class="alert alert-info">@ViewBag.Result</div>
+            }
+            <table class="table">
+
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -34,17 +42,22 @@
                             </td>
                         </tr>
                     }
+            </table>
+            <div>
+                <textarea asp-for="Body" class="form-control" name="Message" id="mytextarea"></textarea>
+            </div>
+            <br/>
+            <div>
+                <br />
+                <label>Attachment</label> 
+                <input name="fileUploader" type="file"  />
+            </div>
 
-                    <tr>
-                        <td>
-                            <div class="form-group text-center">
-                                <input type="submit" class="btn btn-primary" value="Submit" />
-                            </div>
-                    </td>
-                        </tr>
-
-                            }
-                </table>
+            <div class="form-group text-center">
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </div>
+        }
     </div>
+
 </body>
 </html>

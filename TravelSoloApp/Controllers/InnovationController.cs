@@ -6,6 +6,8 @@ using System.Web.Mvc;
 
 namespace TravelSoloApp.Controllers
 {
+
+    //Implementation of Signal R
     public class InnovationController : Controller
     {
         // GET: Innovation

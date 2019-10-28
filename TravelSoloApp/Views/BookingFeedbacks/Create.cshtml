@@ -1,7 +1,7 @@
 ﻿@model TravelSoloApp.Models.BookingFeedback
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Give Rating";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,11 +19,11 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.RadioButtonFor(model => model.Rating, 1)
-            @Html.RadioButtonFor(model => model.Rating, 2)
-            @Html.RadioButtonFor(model => model.Rating, 3)
-            @Html.RadioButtonFor(model => model.Rating, 4)
-            @Html.RadioButtonFor(model => model.Rating, 5)
+            @Html.RadioButtonFor(model => model.Rating, 1)1
+            @Html.RadioButtonFor(model => model.Rating, 2)2
+            @Html.RadioButtonFor(model => model.Rating, 3)3
+            @Html.RadioButtonFor(model => model.Rating, 4)4
+            @Html.RadioButtonFor(model => model.Rating, 5)5
 
         </div>
         @Html.HiddenFor(model => model.Booking_Id)
@@ -34,15 +34,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Rate" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

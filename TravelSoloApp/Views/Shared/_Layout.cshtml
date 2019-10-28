@@ -6,15 +6,17 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     @* This is for the mapbox map. *@
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
     @*This is used for the Geocoding Mapbox API*@
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-glgeocoder.min.js'></script>
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-glgeocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
+ 
 
 </head>
 <body>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' />
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -23,7 +25,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Travel Solo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="/Home/Index" class="navbar-brand">
+                    <img src="~/Content/images/logo1.jfif" alt="Company logo" width="40" height="40" /> Travel Solo
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -42,8 +46,12 @@
                         <li>@Html.ActionLink("My booked Trips", "Index", "Bookings")</li>
 
                     }
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Bulk Email", "Index", "SendBulkEmail")</li>
+                    }
                     <li>@Html.ActionLink("Reach Us", "Index", "Locations")</li>
-                    <li>@Html.ActionLink("Reach Us", "Index", "SendBulkEmail")</li> 
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

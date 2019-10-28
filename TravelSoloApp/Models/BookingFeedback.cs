@@ -11,16 +11,13 @@ namespace TravelSoloApp.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class BookingFeedback
     {
         public int Id { get; set; }
         public short Rating { get; set; }
-
+    
         public int Booking_Id { get; set; }
-
-        [ForeignKey("Booking_Id")]
         public virtual Booking Booking { get; set; }
     }
 }

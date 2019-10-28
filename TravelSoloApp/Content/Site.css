@@ -71,3 +71,14 @@ color:#333;
     .trips > li .details .category {
         font-size:15px;
     }
+
+
+.navbar-brand > img {
+
+    display:inline-block;
+
+}
+img {
+
+    margin:-10px;
+}

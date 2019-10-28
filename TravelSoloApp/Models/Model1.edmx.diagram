@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bec9ac4d3e5a41a996a5ec7181c43fc8" Name="Diagram1" >
-        <EntityTypeShape EntityType="Model1.Trip" Width="2.125" PointX="8.25" PointY="4.125" />
-        <EntityTypeShape EntityType="Model1.Booking" Width="2.125" PointX="9" PointY="0.5" />
-        <EntityTypeShape EntityType="Model1.ContactUs" Width="2.125" PointX="2.625" PointY="0.875" />
+        <EntityTypeShape EntityType="Model1.Trip" Width="2.125" PointX="3" PointY="3.125" />
+        <EntityTypeShape EntityType="Model1.Booking" Width="2.125" PointX="5.875" PointY="3.375" />
+        <EntityTypeShape EntityType="Model1.ContactUs" Width="2.125" PointX="2.75" PointY="7.25" />
         <AssociationConnector Association="Model1.TripBooking" />
-        <EntityTypeShape EntityType="Model1.AspNetUser" Width="1.5" PointX="4.5" PointY="3.875" />
+        <EntityTypeShape EntityType="Model1.AspNetUser" Width="1.5" PointX="0.75" PointY="2.5" />
         <AssociationConnector Association="Model1.AspNetUserTrip" />
         <AssociationConnector Association="Model1.AspNetUserBooking" />
-        <EntityTypeShape EntityType="Model1.Point" Width="1.5" PointX="0.75" PointY="2.375" />
-        <EntityTypeShape EntityType="Model1.BookingFeedback" Width="1.875" PointX="12.375" PointY="1.125" />
+        <EntityTypeShape EntityType="Model1.Point" Width="1.5" PointX="5.75" PointY="7.25" />
+        <EntityTypeShape EntityType="Model1.BookingFeedback" Width="1.875" PointX="3.25" PointY="0.75" />
         <AssociationConnector Association="Model1.BookingFeedbackBooking" />
       </Diagram>
     </edmx:Diagrams>
