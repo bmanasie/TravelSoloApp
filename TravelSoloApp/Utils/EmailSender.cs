@@ -11,7 +11,7 @@ namespace TravelSoloApp.Utils
     public class EmailSender
     {
 
-        private const String API_KEY = "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";
+        private const String API_KEY = "API_KEY";
 
         public void Send( String name, String emailid, String contents,String pathName, String fileName )
         {
